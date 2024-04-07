@@ -1,6 +1,9 @@
 <template>
     <div class="todos">
         <div class="todos__title">TODOS</div>
+        <div class="todos__form">
+            <TodosForm/>
+        </div>
         <div class="todos__heading">
             <div class="todos-heading">
                 <div class="todos-heading__item">
@@ -29,33 +32,32 @@
                 </div>
             </div>
         </div>
-        <div class="todos__list">
+        <div v-if="visibleTodos.length" class="todos__list">
             <div
                 v-for="todo in visibleTodos"
                 class="todos__item"
             >
-                <div :class="['todo-item', { 'todo-item_favorite': isTodoFavorite(todo.id) }]">
-                    <div
-                        v-for="[key, value] in Object.entries(todo)"
-                         :class="['todo-item__column', { 'todo-item__column_small': isColumnSmall(key) }]"
-                    >
-                        <div class="todo-item__label">{{ key }}</div>
-                        <div class="todo-item__content">{{ value }}</div>
-                    </div>
-                </div>
+                <TodoItem
+                    :todo="todo"
+                    :is-todo-favorite="isTodoFavorite(todo.id)"
+                    @handleFavorites="handleFavorites"
+                />
             </div>
         </div>
+        <div v-else class="todos__empty">There are no todos here ..</div>
     </div>
 </template>
 
 <script setup>
 import AppSelect from '@/components/ui/AppSelect.vue'
+import AppInput from '@/components/ui/AppInput.vue'
+import TodoItem from '@/components/Views/Content/TodoItem.vue'
+import TodosForm from '@/components/Views/Content/TodosForm.vue'
 
 import { ref, computed } from 'vue'
 import { getStatusFilterOptions, getUsersFilterOptions } from '@/utils/filter-options.js'
 import { useTodosStore } from '@/stores/todos.js'
 import { useUserStore } from '@/stores/user.js'
-import AppInput from "@/components/ui/AppInput.vue";
 
 const todosStore = useTodosStore()
 const userStore = useUserStore()
@@ -77,11 +79,8 @@ const visibleTodos = computed(() => {
     return filterTodosByUserId(filteredByStatusAndPromptTodos, filterValues.value.userId)
 })
 
-const isColumnSmall = (key) => key === 'id' || key === 'userId'
-const isTodoFavorite = (todoId) => false
-const handleChange = (targetValue, key) => {
-    filterValues.value[key] = targetValue
-}
+const isTodoFavorite = (todoId) => todosStore.favoritesTodoIds.includes(+todoId)
+const handleChange = (targetValue, key) => filterValues.value[key] = targetValue
 const filterByPromptTodos = (arr, prompt) => {
     if (!prompt.length) return arr
 
@@ -93,13 +92,18 @@ const filterTodosByStatus = (arr, status) => {
         'all': (todos) => todos,
         'completed': (todos) => todos.filter(t => t.completed),
         'uncompleted': (todos) => todos.filter(t => !t.completed),
-        'favorites': (todos) => todos
+        'favorites': (todos) => todos.filter(t => todosStore.favoritesTodoIds.includes(+t.id))
     }[status](arr)
 }
 const filterTodosByUserId = (arr, userId) => {
     if (userId === 'all') return arr
 
     return arr.filter(t => +t.userId === +userId)
+}
+const handleFavorites = (todoId) => {
+    isTodoFavorite(todoId)
+        ? todosStore.REMOVE_TODO_FROM_STORAGE(todoId)
+        : todosStore.ADD_TODO_TO_STORAGE(todoId)
 }
 </script>
 
@@ -114,7 +118,8 @@ const filterTodosByUserId = (arr, userId) => {
         text-align: center;
     }
 
-    &__heading {
+    &__heading,
+    &__form {
         margin-bottom: 32px;
     }
 
@@ -123,43 +128,13 @@ const filterTodosByUserId = (arr, userId) => {
             margin-top: 24px;
         }
     }
-}
 
-.todo-item {
-    padding: 24px;
-    width: 100%;
-    display: flex;
-    gap: 20px;
-    border: 1px solid $global-text-color;
-    border-radius: 10px;
-
-    &_favorite {
-        border-color: $global-green;
-        box-shadow: 5px 5px 5px 0 rgba($global-green, .75);
-    }
-
-    &__column {
-        width: 100%;
-
-        &_small {
-            flex-shrink: 0;
-            width: 100px;
-        }
-    }
-
-    &__label {
-        margin-bottom: 10px;
-        font-size: 16px;
-        font-weight: 400;
-        line-height: 24px;
-        color: $global-text-color;
-    }
-
-    &__content {
-        font-size: 18px;
+    &__empty {
+        font-size: 24px;
         font-weight: 700;
-        line-height: 26px;
-        color: $global-black;
+        line-height: 32px;
+        color: $global-text-color;
+        text-align: center;
     }
 }
 

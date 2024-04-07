@@ -1,10 +1,14 @@
 <template>
-    <button :class="['button', `button_size_${ size }`, `button_color_${ color }`]">
+    <button
+        :class="['button', `button_size_${ size }`, `button_color_${ color }`]"
+        @click="onClick"
+    >
         <slot/>
     </button>
 </template>
 
 <script setup>
+const emit = defineEmits(['onClick'])
 const props = defineProps({
     size: {
         type: String,
@@ -13,9 +17,12 @@ const props = defineProps({
     },
     color: {
         type: String,
-        required: value => ['green'].includes(value)
+        required: true,
+        validator: value => ['green', 'red'].includes(value)
     }
 })
+
+const onClick = () => emit('onClick')
 </script>
 
 <style scoped lang="scss">
@@ -47,6 +54,17 @@ const props = defineProps({
             @media (any-hover: hover) {
                 &:hover {
                     background: rgba($global-green, .8);
+                }
+            }
+        }
+
+        &_red {
+            background: $global-red;
+            color: $global-white;
+
+            @media (any-hover: hover) {
+                &:hover {
+                    background: rgba($global-red, .8);
                 }
             }
         }

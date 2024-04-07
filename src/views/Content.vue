@@ -28,7 +28,10 @@ const initTodos = async () => {
     rootStore.TOGGLE_LOADING_STATUS()
 }
 
-onMounted(() => initTodos())
+onMounted(() => {
+    todosStore.GET_FAVORITES_TODO_IDS()
+    initTodos()
+})
 </script>
 
 <style scoped lang="scss">

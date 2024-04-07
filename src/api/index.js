@@ -8,5 +8,6 @@ export const apiBaseFetch = $axios.create({
         Accept: "application/json"
     }
 })
-export const fetchUsers = () => apiBaseFetch.get(`/users`)
+export const fetchUsers = () => apiBaseFetch.get('/users')
 export const fetchTodos = () => apiBaseFetch.get('/todos')
+export const postTodo = (payload) => apiBaseFetch.post('/todos', payload)

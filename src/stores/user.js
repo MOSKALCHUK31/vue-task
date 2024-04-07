@@ -25,6 +25,7 @@ export const useUserStore = defineStore('user-store', () => {
             "bs": "harness real-time e-markets"
         }
     })
+    // const user = ref(null)
     const isAuthenticated = ref(true)
 
     function SET_AUTHENTICATED() {
