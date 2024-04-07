@@ -9,7 +9,7 @@
 
 <script setup>
 import AppPreloader from '@/components/ui/AppPreloader.vue'
-import { userRootStore } from '@/stores/root.js'
+import { useRootStore } from '@/stores/root.js'
 
-const rootStore = userRootStore()
+const rootStore = useRootStore()
 </script>

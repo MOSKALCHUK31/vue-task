@@ -2,8 +2,8 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { fetchUsers } from '@/api/index.js'
 
-export const userRootStore = defineStore('root-store', () => {
-    const users = ref(null)
+export const useRootStore = defineStore('root-store', () => {
+    const users = ref([])
     const isLoading = ref(false)
 
     function SET_USERS(payload) {
@@ -23,7 +23,6 @@ export const userRootStore = defineStore('root-store', () => {
     return {
         users,
         isLoading,
-
         TOGGLE_LOADING_STATUS,
         GET_USERS_ACTIONS
     }

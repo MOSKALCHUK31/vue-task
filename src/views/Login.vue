@@ -10,9 +10,9 @@
 import LoginForm from '@/components/Views/Login/LoginForm.vue'
 
 import { onMounted } from 'vue'
-import { userRootStore } from '@/stores/root.js'
+import { useRootStore } from '@/stores/root.js'
 
-const rootStore = userRootStore()
+const rootStore = useRootStore()
 
 const initUsers = async () => {
     rootStore.TOGGLE_LOADING_STATUS()

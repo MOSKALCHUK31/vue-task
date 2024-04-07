@@ -45,11 +45,11 @@ import AppButton from '@/components/ui/AppButton.vue'
 import { ref, computed } from 'vue'
 import { getLoginValidationRules } from '@/utils/validation-rules.js'
 import useVuelidate from '@vuelidate/core'
-import { userRootStore } from '@/stores/root.js'
+import { useRootStore } from '@/stores/root.js'
 import { useUserStore } from '@/stores/user.js'
 import { useRouter } from 'vue-router'
 
-const rootStore = userRootStore()
+const rootStore = useRootStore()
 const userStore = useUserStore()
 const router = useRouter()
 

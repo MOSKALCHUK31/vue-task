@@ -38,7 +38,6 @@ export const useUserStore = defineStore('user-store', () => {
     return {
         isAuthenticated,
         user,
-
         SET_AUTHENTICATED,
         SET_USER
     }
