@@ -21,7 +21,7 @@ router.beforeEach((to, _2, next) => {
     const userStore = useUserStore()
 
     if (to.meta.requiredAuth && !userStore.isAuthenticated) {
-        next('/404')
+        next('/')
     } else {
         next()
     }

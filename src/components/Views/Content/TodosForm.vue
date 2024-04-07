@@ -1,5 +1,9 @@
 <template>
-    <form @submit.prevent="handleSubmit" class="todos-form">
+    <form
+        ref="form"
+        class="todos-form"
+        @submit.prevent="handleSubmit"
+    >
         <div class="todos-form__row">
             <label for="create-todo-user-id" class="todos-form__label">UserID</label>
             <AppInput
@@ -44,6 +48,7 @@ import { useTodosStore } from '@/stores/todos.js'
 const rootStore = useRootStore()
 const todosStore = useTodosStore()
 
+const form = ref(null)
 const fields = ref({
     userId: '',
     title: ''
@@ -64,6 +69,8 @@ const handleSubmit = async () => {
     rootStore.TOGGLE_LOADING_STATUS()
     await todosStore.ADD_TODO_ACTION(payload)
     rootStore.TOGGLE_LOADING_STATUS()
+
+    form.value.reset()
 }
 </script>
 

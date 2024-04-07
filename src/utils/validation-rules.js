@@ -10,11 +10,11 @@ export function getLoginValidationRules() {
     return {
         username: {
             required,
-            // alpha
+            alpha
         },
         phone: {
             required,
-            // numericAndSymbols
+            numericAndSymbols
         }
     }
 }
