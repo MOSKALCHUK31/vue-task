@@ -1,8 +1,7 @@
 import {
     required,
     alpha,
-    numeric,
-    minLength
+    numeric
 } from '@vuelidate/validators'
 
 const numericAndSymbols = (value) => /^[0-9\W]+$/.test(value)
@@ -26,8 +25,7 @@ export function getTodoValidationRules() {
             numeric
         },
         title: {
-            required,
-            minLength: minLength(5)
+            required
         }
     }
 }

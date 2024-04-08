@@ -9,9 +9,11 @@ export const useRootStore = defineStore('root-store', () => {
     function SET_USERS(payload) {
         users.value = payload
     }
+
     function TOGGLE_LOADING_STATUS() {
         isLoading.value = !isLoading.value
     }
+
     async function GET_USERS_ACTIONS() {
         try {
             const { data } = await fetchUsers()

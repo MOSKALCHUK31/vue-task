@@ -30,7 +30,9 @@
                 color="green"
                 size="medium"
                 type="submit"
-            >CREATE TODO</AppButton>
+            >
+                CREATE TODO
+            </AppButton>
         </div>
     </form>
 </template>
@@ -72,7 +74,13 @@ const handleSubmit = async () => {
     await todosStore.ADD_TODO_ACTION(payload)
     rootStore.TOGGLE_LOADING_STATUS()
 
+    resetForm()
+}
+
+const resetForm = () => {
     form.value.reset()
+    fields.value.userId = ''
+    fields.value.title = ''
 }
 </script>
 
