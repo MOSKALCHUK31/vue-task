@@ -58,7 +58,9 @@ const rules = computed(() => getTodoValidationRules())
 const v$ = useVuelidate(rules, fields)
 
 const handleInput = (targetValue, key) => fields.value[key] = targetValue
+
 const validate = (value, key) => v$.value[key].$touch()
+
 const handleSubmit = async () => {
     v$.value.$touch()
 

@@ -10,7 +10,8 @@
 <script setup>
 const emit = defineEmits(['onChange'])
 const props = defineProps({
-    // [{ value, name }]
+    // Expected interface
+    // [{ value: number, name: string }]
     options: {
         type: Array,
         required: true

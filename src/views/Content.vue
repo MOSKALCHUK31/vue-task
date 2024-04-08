@@ -12,8 +12,8 @@
 </template>
 
 <script setup>
-import UserData from '@/components/Views/Content/UserData.vue'
-import Todos from '@/components/Views/Content/Todos.vue'
+import UserData from '@/components/views/Content/UserData.vue'
+import Todos from '@/components/views/Content/Todos.vue'
 
 import { onMounted } from 'vue'
 import { useRootStore } from '@/stores/root.js'

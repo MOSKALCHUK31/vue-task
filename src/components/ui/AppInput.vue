@@ -1,7 +1,6 @@
 <template>
     <input
         :class="[`size_${ size }`, { 'is-error': isError }]"
-        v-model="value"
         type="text"
         @input="onInput"
         @change="onChange"
@@ -9,8 +8,6 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
-
 const emit = defineEmits(['onInput', 'onChange'])
 const props = defineProps({
     size: {
@@ -23,8 +20,6 @@ const props = defineProps({
         required: false
     }
 })
-
-const value = ref('')
 
 const onInput = (e) => emit('onInput', e.target.value)
 const onChange = (e) => emit('onChange', e.target.value)

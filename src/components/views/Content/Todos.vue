@@ -51,16 +51,16 @@
 <script setup>
 import AppSelect from '@/components/ui/AppSelect.vue'
 import AppInput from '@/components/ui/AppInput.vue'
-import TodoItem from '@/components/Views/Content/TodoItem.vue'
-import TodosForm from '@/components/Views/Content/TodosForm.vue'
+import TodoItem from '@/components/views/Content/TodoItem.vue'
+import TodosForm from '@/components/views/Content/TodosForm.vue'
 
 import { ref, computed } from 'vue'
 import { getStatusFilterOptions, getUsersFilterOptions } from '@/utils/filter-options.js'
 import { useTodosStore } from '@/stores/todos.js'
-import { useUserStore } from '@/stores/user.js'
+import { useRootStore } from '@/stores/root.js'
 
 const todosStore = useTodosStore()
-const userStore = useUserStore()
+const rootStore = useRootStore()
 
 const filterValues = ref({
     status: 'all',
@@ -69,7 +69,7 @@ const filterValues = ref({
 })
 
 const statusFilterOptions = computed(() => getStatusFilterOptions())
-const userFilterOptions = computed(() => getUsersFilterOptions(userStore?.user?.id || 0))
+const userFilterOptions = computed(() => getUsersFilterOptions(rootStore.users))
 const visibleTodos = computed(() => {
     // filter by search prompt
     const filteredByPromptTodos = filterByPromptTodos(todosStore.todos, filterValues.value.search)
@@ -80,13 +80,16 @@ const visibleTodos = computed(() => {
 })
 
 const isTodoFavorite = (todoId) => todosStore.favoritesTodoIds.includes(+todoId)
+
 const handleChange = (targetValue, key) => filterValues.value[key] = targetValue
+
 const filterByPromptTodos = (arr, prompt) => {
     if (!prompt.length) return arr
 
     const value = prompt.trim().toLowerCase()
     return arr.filter(t => t.title.toLowerCase().includes(value))
 }
+
 const filterTodosByStatus = (arr, status) => {
     return {
         'all': (todos) => todos,
@@ -95,11 +98,13 @@ const filterTodosByStatus = (arr, status) => {
         'favorites': (todos) => todos.filter(t => todosStore.favoritesTodoIds.includes(+t.id))
     }[status](arr)
 }
+
 const filterTodosByUserId = (arr, userId) => {
     if (userId === 'all') return arr
 
     return arr.filter(t => +t.userId === +userId)
 }
+
 const handleFavorites = (todoId) => {
     isTodoFavorite(todoId)
         ? todosStore.REMOVE_TODO_FROM_STORAGE(todoId)

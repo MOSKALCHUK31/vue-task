@@ -33,7 +33,9 @@
                 size="medium"
                 color="green"
                 type="submit"
-            >SUBMIT</AppButton>
+            >
+                SUBMIT
+            </AppButton>
         </div>
     </form>
 </template>
@@ -77,22 +79,21 @@ const handleSubmit = () => {
         formErrorMess.value = 'There is no such user'
     }
 }
+
 const handleInput = (value, key) => {
     fields.value[key] = value
 
     if (formErrorMess.value) formErrorMess.value = ''
 }
-const validate = (value, key) => {
-    v$.value[key].$touch()
-}
-const checkUser = (username, phone) => {
-    return usersData.value.some(u => u.username === username && u.phone === phone)
-}
+
+const validate = (value, key) => v$.value[key].$touch()
+
+const checkUser = (username, phone) => usersData.value
+    .some(u => u.username === username && u.phone === phone)
+
 const setUser = () => {
-    const user = usersData.value.find(u =>
-        u.username === fields.value.username
-        && u.phone === fields.value.phone
-    )
+    const user = usersData.value
+        .find(u => u.username === fields.value.username && u.phone === fields.value.phone)
 
     userStore.SET_USER(user)
     userStore.SET_AUTHENTICATED()

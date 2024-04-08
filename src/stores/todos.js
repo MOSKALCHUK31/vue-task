@@ -10,12 +10,15 @@ export const useTodosStore = defineStore('todos-store', () => {
     function SET_TODOS(payload) {
         todos.value = [ ...payload ]
     }
+
     function SET_FAVORITES_TODO_IDS(payload) {
         favoritesTodoIds.value = [ ...payload ]
     }
-    function PUSH_TODO(todoItem) {
+
+    function INSERT_TODO(todoItem) {
         todos.value.unshift(todoItem)
     }
+
     // STORAGE
     function GET_FAVORITES_TODO_IDS() {
         const json = localStorage.getItem(TODOS_STORAGE_KEY)
@@ -24,6 +27,7 @@ export const useTodosStore = defineStore('todos-store', () => {
 
         SET_FAVORITES_TODO_IDS(JSON.parse(json))
     }
+
     function ADD_TODO_TO_STORAGE(todoId) {
         const arr = JSON.parse(localStorage.getItem(TODOS_STORAGE_KEY)) || []
 
@@ -32,6 +36,7 @@ export const useTodosStore = defineStore('todos-store', () => {
 
         SET_FAVORITES_TODO_IDS(arr)
     }
+
     function REMOVE_TODO_FROM_STORAGE(todoId) {
         const json = localStorage.getItem(TODOS_STORAGE_KEY)
         const arr = JSON.parse(json)
@@ -41,6 +46,7 @@ export const useTodosStore = defineStore('todos-store', () => {
 
         SET_FAVORITES_TODO_IDS(filteredTodoIds)
     }
+
     // ACTIONS
     async function GET_TODOS_ACTION() {
         try {
@@ -49,11 +55,12 @@ export const useTodosStore = defineStore('todos-store', () => {
             SET_TODOS(data)
         } catch(err) { console.error(err) }
     }
+
     async function ADD_TODO_ACTION(payload) {
         try {
             const { data } = await postTodo(payload)
 
-            PUSH_TODO(data)
+            INSERT_TODO({ ...data, id: todos.value.length + 1 })
         } catch(err) { console.error(err) }
     }
 

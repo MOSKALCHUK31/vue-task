@@ -20,10 +20,8 @@ const router = createRouter({
 router.beforeEach((to, _2, next) => {
     const userStore = useUserStore()
 
-    if (to.meta.requiredAuth && !userStore.isAuthenticated) {
-        next('/')
-    } else {
-        next()
-    }
+    to.meta.requiredAuth && !userStore.isAuthenticated
+        ? next('/')
+        : next()
 })
 export default router

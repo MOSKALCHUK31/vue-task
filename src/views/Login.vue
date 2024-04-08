@@ -7,7 +7,7 @@
 </template>
 
 <script setup>
-import LoginForm from '@/components/Views/Login/LoginForm.vue'
+import LoginForm from '@/components/views/Login/LoginForm.vue'
 
 import { onMounted } from 'vue'
 import { useRootStore } from '@/stores/root.js'

@@ -7,9 +7,9 @@ export function getStatusFilterOptions() {
     ]
 }
 
-export function getUsersFilterOptions(currentUserId) {
+export function getUsersFilterOptions(users) {
     return [
-        { name: 'All', value: 'all' },
-        { name: `UserID: ${ currentUserId }`, value: currentUserId }
+        { name: 'All users', value: 'all' },
+        ...users.map(u => ({ name: `UserID: ${ u.id }`, value: u.id }))
     ]
 }

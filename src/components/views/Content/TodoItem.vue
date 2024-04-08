@@ -1,11 +1,20 @@
 <template>
     <div :class="['todo-item', { 'todo-item_favorite': isTodoFavorite }]">
-        <div
-            v-for="[key, value] in Object.entries(todo)"
-            :class="['todo-item__column', { 'todo-item__column_small': isColumnSmall(key) }]"
-        >
-            <div class="todo-item__label">{{ key }}</div>
-            <div class="todo-item__content">{{ value }}</div>
+        <div class="todo-item__column todo-item__column_small">
+            <div class="todo-item__label">TodoID</div>
+            <div class="todo-item__content">{{ todo.id }}</div>
+        </div>
+        <div class="todo-item__column todo-item__column_small">
+            <div class="todo-item__label">UserID</div>
+            <div class="todo-item__content">{{ todo.userId }}</div>
+        </div>
+        <div class="todo-item__column">
+            <div class="todo-item__label">Title</div>
+            <div class="todo-item__content">{{ todo.title }}</div>
+        </div>
+        <div class="todo-item__column todo-item__column_small">
+            <div class="todo-item__label">Completed</div>
+            <div class="todo-item__content">{{ todo.completed }}</div>
         </div>
         <div class="todo-item__column todo-item__column_small">
             <div class="todo-item__label">Favorites</div>
@@ -37,9 +46,6 @@ const props = defineProps({
 const buttonLabel = computed(() => props.isTodoFavorite ? 'REMOVE' : 'ADD')
 const buttonColor = computed(() => props.isTodoFavorite ? 'red' : 'green')
 
-const isColumnSmall = (key) => key === 'id'
-    || key === 'userId'
-    || key === 'completed'
 const handleClick = (todoId) => emit('handleFavorites', todoId)
 </script>
 
