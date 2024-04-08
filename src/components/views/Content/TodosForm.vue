@@ -78,9 +78,10 @@ const handleSubmit = async () => {
 }
 
 const resetForm = () => {
-    form.value.reset()
     fields.value.userId = ''
     fields.value.title = ''
+    form.value.reset()
+    v$.value.$reset()
 }
 </script>
 
